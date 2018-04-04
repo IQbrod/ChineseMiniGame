@@ -1,23 +1,25 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
+sys.path.insert(0,"lib")
 from parser import ChineseParser
 import random
 
-nb = 5
+nb = 20
+score = 0
 
-c = ChineseParser("dico.iq")
-gameData = c.splitPinYin()
+cp = ChineseParser("data/dico.iq")
+gameData = cp.splitPinYin()
 
-print("Translate these "+str(nb)+" PinYin (in Chinese):")
-giv = []
-sol = []
-for i in range(5):
+print("Translate these "+str(nb)+" HanZi to PinYin:")
+for i in range(nb):
 	# Select an element
 	rd = random.choice(gameData)
-	sol.append(rd[0])
-	val = rd[1]
 	gameData.pop(gameData.index(rd))
 
-	giv.append(raw_input("\t"+val+":"))
-print giv
-print sol
+	inp = raw_input("\t"+rd[1]+":")
+	if (inp.lower() == rd[0].lower()):
+		print("\tCorrect \033[32m✓\033[0m")
+		score += 1
+	else:
+		print("\t"+rd[0]+" \033[31m✗\033[0m")
